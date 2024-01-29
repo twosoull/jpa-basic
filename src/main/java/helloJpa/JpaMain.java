@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class JpaMain {
 
@@ -31,10 +32,23 @@ public class JpaMain {
             entityManager.remove(member);//db에서 지워진다.
             */
 
-            //변경 감지로 지우지 않아도 됌
+            /*
+            // 업데이트는 변경 감지로 persist를 날리지 않아도 됌
             Member member = entityManager.find(Member.class, 1L);
-            member.setName("update!");
+            member.setName("update!"); //변경하는 시점에 트랜잭션을 날리고 커밋이 된다.
+            */
 
+            /*
+
+            * */
+            // JPQL(객체를 대상으로 한 객체지향 쿼리)로 전체 조회 (객체 대상으로 쿼리를 조회한다)
+            List<Member> result = entityManager.createQuery("select m from Member as m", Member.class)
+                    .setFirstResult(1).setMaxResults(10)
+                    .getResultList();//페이징 을 만들 수도 있다.
+
+            for(Member member : result){
+                System.out.println("member.name = " + member.getName());
+            }
 
             ts.commit();
         } catch (Exception e){
