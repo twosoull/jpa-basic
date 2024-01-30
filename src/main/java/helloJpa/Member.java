@@ -15,6 +15,14 @@ public class Member {
     @Column(name="name")// 해주지 않는 경우 필드명을 따라가게 된다.
     private String name;
 
+    public Member() {
+    }
+
+    public Member(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
