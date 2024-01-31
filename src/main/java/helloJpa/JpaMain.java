@@ -112,14 +112,43 @@ public class JpaMain {
 
             entityManager.detach(member); //영속성 컨텐츠에서 제외 시켜버린다. 그러므로 커밋시점에 아무 일도 일어나지 않는다.
 */
-
+/*
             Member member = entityManager.find(Member.class, 150L);
-            member.setName("dddd");
+            member.setUsername("dddd");
 
             entityManager.clear();
 
             Member member2 = entityManager.find(Member.class, 150L); // 새로 불러오게 된다.
+*/
+            /*
+            Member member = new Member();
+            member.setRoleType(RoleType.USER);
 
+            System.out.println("============");
+            entityManager.persist(member);
+            System.out.println("memeber.id = " + member.getId());
+            System.out.println("============");
+            */
+            Member member1 = new Member();
+            member1.setUsername("a");
+
+            Member member2 = new Member();
+            member2.setUsername("b");
+
+            Member member3 = new Member();
+            member3.setUsername("c");
+
+            System.out.println("==========");
+
+            entityManager.persist(member1); // db seq 1 | id 1
+            entityManager.persist(member2); // db seq 51 | id 2
+            entityManager.persist(member3); // db seq 51 | id 3
+
+            System.out.println("member1 = " + member1.getId());
+            System.out.println("member2 = " + member2.getId());
+            System.out.println("member3 = " + member3.getId());
+
+            System.out.println("==========");
             ts.commit();
         } catch (Exception e){
             ts.rollback(); //오류일 경우 현재 코드들을 롤백 , 즉 저장하지 않는다.
